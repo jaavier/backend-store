@@ -7,7 +7,7 @@ import (
 )
 
 func ValidateLogin(user models.User) (string, error) {
-	if user.Nickname == "root" && user.Passwd == "toor" {
+	if user.Nickname == "root" && user.Password == "toor" {
 		token, err := helpers.GenerateToken(user.Nickname)
 		if err != nil {
 			fmt.Println("Error while generating JWT token:", err)
