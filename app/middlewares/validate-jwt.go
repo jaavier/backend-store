@@ -1,7 +1,7 @@
 package middlewares
 
 import (
-	"bgelato/secret"
+	"bgelato/app/secret"
 	"fmt"
 
 	"github.com/dgrijalva/jwt-go"

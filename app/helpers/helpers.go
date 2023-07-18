@@ -1,13 +1,13 @@
-package main
+package helpers
 
 import (
-	"bgelato/secret"
+	"bgelato/app/secret"
 	"time"
 
 	jwt "github.com/dgrijalva/jwt-go"
 )
 
-func generateToken(username string) (string, error) {
+func GenerateToken(username string) (string, error) {
 	token := jwt.New(jwt.SigningMethodHS256)
 	claims := token.Claims.(jwt.MapClaims)
 	claims["username"] = username
