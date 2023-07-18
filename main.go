@@ -15,6 +15,8 @@ func main() {
 	var e = echo.New()
 
 	e.GET("/", handlers.PrivateHandler, middlewares.JwtMiddleware)
+	e.GET("/products", handlers.LoadProducts)
+	e.POST("/products", handlers.InsertProduct, middlewares.JwtMiddleware)
 	e.POST("/register", handlers.RegisterUser)
 	e.POST("/login", handlers.LoginUser)
 

@@ -11,6 +11,8 @@ func GenerateToken(username string) (string, error) {
 	token := jwt.New(jwt.SigningMethodHS256)
 	claims := token.Claims.(jwt.MapClaims)
 	claims["username"] = username
+	role, _ := FindRole(username)
+	claims["role"] = role
 	claims["exp"] = time.Now().Add(time.Hour * 24).Unix() // Token expira en 24 horas
 
 	tokenString, err := token.SignedString(secret.JwtKey)
@@ -19,4 +21,8 @@ func GenerateToken(username string) (string, error) {
 	}
 
 	return tokenString, nil
+}
+
+func FindRole(username string) (string, error) {
+	return "user", nil
 }
