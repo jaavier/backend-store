@@ -5,8 +5,6 @@ import (
 	"bgelato/db"
 	"context"
 	"fmt"
-
-	"go.mongodb.org/mongo-driver/bson"
 )
 
 func InsertProduct(product models.Product) (models.Product, error) {
@@ -18,9 +16,9 @@ func InsertProduct(product models.Product) (models.Product, error) {
 	return product, nil
 }
 
-func LoadProducts() ([]models.Product, error) {
+func LoadProducts(filter interface{}) ([]models.Product, error) {
 	var productsList []models.Product
-	cursor, err := db.Collections.Products.Find(context.TODO(), bson.M{})
+	cursor, err := db.Collections.Products.Find(context.TODO(), filter)
 	if err != nil {
 		fmt.Println(err)
 		return []models.Product{}, err
