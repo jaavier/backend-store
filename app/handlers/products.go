@@ -21,7 +21,7 @@ type Filter struct {
 }
 
 func createFilter(values url.Values) bson.M {
-	filters := []string{"name", "description", "date", "flavor", "storeId", "stock"}
+	filters := []string{"name", "description", "date", "flavor", "storeId"}
 	var results = bson.M{}
 
 	for _, filter := range filters {
