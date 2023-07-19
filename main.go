@@ -17,6 +17,9 @@ func main() {
 	e.GET("/", handlers.PrivateHandler, middlewares.JwtMiddleware)
 	e.GET("/products", handlers.LoadProducts)
 	e.POST("/products", handlers.InsertProduct, middlewares.JwtMiddleware)
+	e.GET("/orders/:orderId", handlers.ViewOrder, middlewares.JwtMiddleware)
+	e.GET("/orders", handlers.ViewAllOrders, middlewares.JwtMiddleware)
+	e.POST("/orders", handlers.CreateOrder, middlewares.JwtMiddleware)
 	e.POST("/register", handlers.RegisterUser)
 	e.POST("/login", handlers.LoginUser)
 
