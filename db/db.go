@@ -5,21 +5,16 @@ import (
 	"fmt"
 	"log"
 	"os"
-	"sync"
 
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"
 )
 
-type CollectionsStruct struct {
-	Products *mongo.Collection
-	Users    *mongo.Collection
-	Orders   *mongo.Collection
-}
+var Products *mongo.Collection
+var Users *mongo.Collection
+var Orders *mongo.Collection
 
 var MongoClient *mongo.Client
-var clientOnce sync.Once
-var Collections CollectionsStruct
 
 func Connect() {
 	// clientOnce.Do(func() {
@@ -34,9 +29,9 @@ func Connect() {
 		log.Fatal(err)
 	}
 	MongoClient = client
-	Collections.Products = client.Database("slider").Collection("products")
-	Collections.Users = client.Database("slider").Collection("users")
-	Collections.Orders = client.Database("slider").Collection("orders")
+	Products = client.Database("slider").Collection("products")
+	Users = client.Database("slider").Collection("users")
+	Orders = client.Database("slider").Collection("orders")
 	fmt.Printf("[SUCCESS] Connected successfully to MongoDB %s\n", host)
 	// defer client.Disconnect(context.Background())
 	// })
