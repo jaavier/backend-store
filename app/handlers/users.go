@@ -19,7 +19,9 @@ func RegisterUser(c echo.Context) error {
 	}
 	newUser, err := services.CreateUser(user.Nickname, user.Password)
 	if err != nil {
-		return c.JSON(400, err)
+		return c.JSON(400, map[string]string{
+			"error": err.Error(),
+		})
 	}
 	return c.JSON(200, newUser)
 }
