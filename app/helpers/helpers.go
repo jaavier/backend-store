@@ -5,14 +5,15 @@ import (
 	"time"
 
 	jwt "github.com/dgrijalva/jwt-go"
+	"go.mongodb.org/mongo-driver/bson/primitive"
 	"golang.org/x/crypto/bcrypt"
 )
 
-func GenerateToken(username string) (string, error) {
+func GenerateToken(userId primitive.ObjectID) (string, error) {
 	token := jwt.New(jwt.SigningMethodHS256)
 	claims := token.Claims.(jwt.MapClaims)
-	claims["username"] = username
-	role, _ := FindRole(username)
+	claims["userId"] = userId
+	role, _ := FindRole(userId)
 	claims["role"] = role
 	claims["exp"] = time.Now().Add(time.Hour * 24).Unix() // Token expira en 24 horas
 
@@ -24,7 +25,7 @@ func GenerateToken(username string) (string, error) {
 	return tokenString, nil
 }
 
-func FindRole(username string) (string, error) {
+func FindRole(userId primitive.ObjectID) (string, error) {
 	return "user", nil
 }
 
