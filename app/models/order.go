@@ -1,5 +1,14 @@
 package models
 
+import (
+	"time"
+
+	"go.mongodb.org/mongo-driver/bson/primitive"
+)
+
 type Order struct {
-	Product Product
+	Products []primitive.ObjectID `json:"productsIds" bson:"productsIds"`
+	Date     time.Time            `json:"date" bson:"date"`
+	Id       string               `json:"orderId" bson:"orderId"`
+	Total    float64              `json:"total" bson:"total"`
 }

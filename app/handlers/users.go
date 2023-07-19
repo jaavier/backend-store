@@ -17,7 +17,7 @@ func RegisterUser(c echo.Context) error {
 			"message": "Cannot create user",
 		})
 	}
-	newUser, err := services.CreateUser(user.Nickname, user.Passwd)
+	newUser, err := services.CreateUser(user.Nickname, user.Password)
 	if err != nil {
 		return c.JSON(400, err)
 	}
@@ -26,6 +26,7 @@ func RegisterUser(c echo.Context) error {
 
 func LoginUser(c echo.Context) error {
 	var body models.User
+
 	err := json.NewDecoder(c.Request().Body).Decode(&body)
 	if err != nil {
 		fmt.Println("Error while decoding body /login")
