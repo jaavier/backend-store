@@ -28,10 +28,14 @@ func JwtMiddleware(next echo.HandlerFunc) echo.HandlerFunc {
 				return echo.ErrUnauthorized, nil
 			}
 
-			username := claims["username"].(string)
-			c.Set("username", username)
+			if claims["userId"] != nil {
+				userId := claims["userId"].(string)
+				c.Set("userId", userId)
+				return secret.JwtKey, nil
+			} else {
+				return echo.ErrUnauthorized, nil
+			}
 
-			return secret.JwtKey, nil
 		})
 
 		if err != nil || !token.Valid {

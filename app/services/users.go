@@ -22,7 +22,7 @@ func ValidateLogin(user models.User) (string, error) {
 	}
 
 	if helpers.ValidatePassword(userFound.Password, user.Password) {
-		token, err := helpers.GenerateToken(user.Nickname)
+		token, err := helpers.GenerateToken(userFound.Id)
 		if err != nil {
 			fmt.Println("Error while generating JWT token:", err)
 			return "", fmt.Errorf("not valid")
@@ -43,7 +43,7 @@ func UserExists(nickname string) bool {
 	return user.Nickname == nickname
 }
 
-func CreateUser(nickname, password string) (primitive.ObjectID, error) {
+func CreateUser(nickname, password string) (interface{}, error) {
 	if len(nickname) < 3 {
 		return primitive.ObjectID{}, fmt.Errorf("invalid nickname")
 	}
@@ -64,12 +64,13 @@ func CreateUser(nickname, password string) (primitive.ObjectID, error) {
 	resultInsert, err := db.Users.InsertOne(context.TODO(), models.User{
 		Nickname: nickname,
 		Password: hashedPassword,
+		Id:       primitive.NewObjectID(),
 	})
-
 	if err != nil {
 		fmt.Println("[Error Users.Insert] Error", err.Error())
 		return primitive.ObjectID{}, err
 	}
+	fmt.Println(resultInsert.InsertedID)
 
-	return resultInsert.InsertedID.(primitive.ObjectID), nil
+	return resultInsert.InsertedID, nil
 }
