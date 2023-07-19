@@ -9,7 +9,25 @@ import (
 
 	"github.com/google/uuid"
 	"go.mongodb.org/mongo-driver/bson"
+	"go.mongodb.org/mongo-driver/bson/primitive"
 )
+
+func CalculatePrice(productsIds []string) float64 {
+	var total float64
+	for _, productId := range productsIds {
+		var product models.Product
+		var id, _ = primitive.ObjectIDFromHex(productId)
+		result := db.Products.FindOne(context.TODO(), bson.M{
+			"_id": id,
+		})
+		if err := result.Decode(&product); err != nil {
+			fmt.Println("Error getting price for productId", productId)
+		} else {
+			total += product.Price
+		}
+	}
+	return total
+}
 
 func CreateOrder(productsIds []string) (string, error) {
 	generateId := uuid.NewString()
@@ -17,6 +35,7 @@ func CreateOrder(productsIds []string) (string, error) {
 		Products: productsIds,
 		Date:     time.Now(),
 		Id:       generateId,
+		Total:    CalculatePrice(productsIds),
 	}
 	_, err := db.Orders.InsertOne(context.TODO(), newOrder)
 	if err != nil {
