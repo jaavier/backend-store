@@ -8,7 +8,7 @@ import (
 )
 
 func InsertProduct(product models.Product) (models.Product, error) {
-	_, err := db.Collections.Products.InsertOne(context.TODO(), product)
+	_, err := db.Products.InsertOne(context.TODO(), product)
 	if err != nil {
 		return models.Product{}, err
 	}
@@ -18,7 +18,7 @@ func InsertProduct(product models.Product) (models.Product, error) {
 
 func LoadProducts(filter interface{}) ([]models.Product, error) {
 	var productsList []models.Product
-	cursor, err := db.Collections.Products.Find(context.TODO(), filter)
+	cursor, err := db.Products.Find(context.TODO(), filter)
 	if err != nil {
 		fmt.Println(err)
 		return []models.Product{}, err
